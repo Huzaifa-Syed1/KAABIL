@@ -1,0 +1,3 @@
+[build]
+  publish = "kaabil"
+  functions = "kaabil/netlify/functions"
