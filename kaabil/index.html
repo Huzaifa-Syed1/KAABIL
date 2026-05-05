@@ -1980,7 +1980,7 @@
             <button class="modal-close" onclick="closeModal()">✕</button>
             <div id="modalContent">
   <h3>Join the Waitlist</h3>
-  <p>We're launching with a pilot cohort at NIT Andhra Pradesh in October 2025. Be the first to get your Kaabil Score.</p>
+  <p>We're launching with a pilot cohort at NIT Andhra Pradesh in October 2026. Be the first to get your Kaabil Score.</p>
   <form 
     name="kaabil-waitlist" 
     method="POST" 
@@ -2024,6 +2024,22 @@
             currentSubject = subject;
             resetSession();
         }
+
+        function showCustomSubject(btn) {
+  document.querySelectorAll('.subject-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const row = document.getElementById('customSubjectRow');
+  row.style.display = 'flex';
+  document.getElementById('customSubjectInput').focus();
+}
+
+function confirmCustomSubject() {
+  const val = document.getElementById('customSubjectInput').value.trim();
+  if (!val) return;
+  currentSubject = val;
+  document.getElementById('customSubjectRow').style.display = 'none';
+  resetSession();
+}
 
         function resetSession() {
             messages = [];
@@ -2286,18 +2302,28 @@ Respond ONLY with valid JSON, no explanation, no markdown:
             if (e.target === document.getElementById('modalOverlay')) closeModal();
         }
 
-        function submitWaitlist() {
-            const name = document.getElementById('modalName').value.trim();
-            const email = document.getElementById('modalEmail').value.trim();
-            if (!name || !email) { alert('Please fill in your name and email.'); return; }
+        function handleWaitlistSubmit(e) {
+  e.preventDefault();
+  const form = e.target;
+  const data = new FormData(form);
 
-            document.getElementById('modalContent').innerHTML = `
+  fetch('/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams(data).toString()
+  })
+  .then(() => {
+    document.getElementById('modalContent').innerHTML = `
       <div class="modal-success">
         <div class="modal-success-icon">✅</div>
         <h4>You're on the list.</h4>
-        <p>We'll reach out before the October pilot launch at NIT AP. Your KAABIL Score journey starts soon.</p>
+        <p>We'll reach out before the October pilot launch at NIT AP. Your Kaabil Score journey starts soon.</p>
       </div>`;
-        }
+  })
+  .catch(() => {
+    alert('Something went wrong. Try again.');
+  });
+}
 
         // Scroll reveal
         const observer = new IntersectionObserver((entries) => {
