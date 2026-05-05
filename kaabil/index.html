@@ -1836,13 +1836,24 @@
                 </div>
             </div>
             <div class="chat-subject-selector">
-                <span class="subject-label">Subject:</span>
-                <button class="subject-btn active" onclick="selectSubject(this,'DSA')">DSA</button>
-                <button class="subject-btn" onclick="selectSubject(this,'DBMS')">DBMS</button>
-                <button class="subject-btn" onclick="selectSubject(this,'OS')">OS</button>
-                <button class="subject-btn" onclick="selectSubject(this,'CN')">Computer Networks</button>
-                <button class="subject-btn" onclick="selectSubject(this,'OOP')">OOP</button>
-            </div>
+  <span class="subject-label">Subject:</span>
+  <button class="subject-btn active" onclick="selectSubject(this,'DSA')">DSA</button>
+  <button class="subject-btn" onclick="selectSubject(this,'DBMS')">DBMS</button>
+  <button class="subject-btn" onclick="selectSubject(this,'OS')">OS</button>
+  <button class="subject-btn" onclick="selectSubject(this,'OOP')">OOP</button>
+  <button class="subject-btn" onclick="selectSubject(this,'CN')">CN</button>
+  <button class="subject-btn custom-add" onclick="showCustomSubject(this)">+ Add Subject</button>
+</div>
+<div id="customSubjectRow" style="display:none;padding:8px 24px;border-bottom:1px solid var(--border);gap:10px;align-items:center;display:none;">
+  <input 
+    id="customSubjectInput" 
+    type="text" 
+    placeholder="e.g. Computer Graphics, Compiler Design..." 
+    style="flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:8px 12px;color:var(--text);font-family:'Syne',sans-serif;font-size:13px;outline:none;"
+    onkeydown="if(event.key==='Enter')confirmCustomSubject()"
+  />
+  <button onclick="confirmCustomSubject()" style="background:var(--accent);color:white;border:none;padding:8px 16px;border-radius:8px;font-family:'Syne',sans-serif;font-size:13px;font-weight:600;cursor:pointer;">Go</button>
+</div>
             <div class="chat-messages" id="chatMessages"></div>
             <div class="score-result" id="scoreResult">
                 <div class="score-result-header">
@@ -1968,15 +1979,21 @@
         <div class="modal">
             <button class="modal-close" onclick="closeModal()">✕</button>
             <div id="modalContent">
-                <h3>Join the Waitlist</h3>
-                <p>We're launching with a pilot cohort at NIT Andhra Pradesh in October 2026. Be the first to get your
-                    KAABIL Score.</p>
-                <input class="modal-input" id="modalName" type="text" placeholder="Your name">
-                <input class="modal-input" id="modalEmail" type="email" placeholder="College email">
-                <input class="modal-input" id="modalCollege" type="text"
-                    placeholder="College & Year (e.g. NIT AP, 2nd Year CSE)">
-                <button class="modal-submit" onclick="submitWaitlist()">Secure my spot →</button>
-            </div>
+  <h3>Join the Waitlist</h3>
+  <p>We're launching with a pilot cohort at NIT Andhra Pradesh in October 2025. Be the first to get your Kaabil Score.</p>
+  <form 
+    name="kaabil-waitlist" 
+    method="POST" 
+    data-netlify="true"
+    onsubmit="handleWaitlistSubmit(event)"
+  >
+    <input type="hidden" name="form-name" value="kaabil-waitlist" />
+    <input class="modal-input" name="name" type="text" placeholder="Your name" required />
+    <input class="modal-input" name="email" type="email" placeholder="College email" required />
+    <input class="modal-input" name="college" type="text" placeholder="College & Year (e.g. NIT AP, 2nd Year CSE)" required />
+    <button type="submit" class="modal-submit">Secure my spot →</button>
+  </form>
+</div>
         </div>
     </div>
 
